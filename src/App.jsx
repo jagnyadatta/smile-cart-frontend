@@ -7,7 +7,7 @@ import routes from "apis/routes";
 const App = () => (
   <>
     <div className="mx-4 flex space-x-2">
-      <NavLink exact activeClassName="underline font-bold text-2xl" to="/">
+      <NavLink exact activeClassName="underline font-bold" className="text-2xl" to="/">
         Home
       </NavLink>
       {/* <NavLink exact activeClassName="underline font-bold" to="/product">
