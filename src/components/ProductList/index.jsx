@@ -1,17 +1,19 @@
-import { NoData, Spinner } from "neetoui";
-import productsApi from "apis/products";
 import { useEffect, useState } from "react";
-import ProductListItem from "./ProductListItem";
-import { Header } from "components/commons";
-import { Input } from "neetoui";
-import { Search } from "neetoicons";
-import { isEmpty } from "ramda";
-import useDebounce from "hooks/useDebounce";
 
-const ProductList = () =>{ 
+import productsApi from "apis/products";
+import { Header } from "components/commons";
+import useDebounce from "hooks/useDebounce";
+import { Search } from "neetoicons";
+import { NoData, Spinner, Input } from "neetoui";
+import { isEmpty, without } from "ramda";
+
+import ProductListItem from "./ProductListItem";
+
+const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchKey, setSearchKey] = useState("");
+  const [cartItems, setCartItems] = useState([]);
   const debouncedSearchKey = useDebounce(searchKey);
   const fetchProducts = async () => {
     try {
@@ -27,10 +29,16 @@ const ProductList = () =>{
     }
   };
 
+  const toggleIsInCart = slug =>
+    setCartItems(prevCartItems =>
+      prevCartItems.includes(slug)
+        ? without([slug], cartItems)
+        : [slug, ...cartItems]
+    );
+
   useEffect(() => {
     fetchProducts();
-  }, [debouncedSearchKey]);
-
+  }, [debouncedSearchKey, fetchProducts]);
   if (isLoading) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
@@ -43,8 +51,9 @@ const ProductList = () =>{
     <div className="flex flex-col">
       <div className="m-2">
         <Header
-          title="Smile cart"
+          cartItemsCount={cartItems.length}
           shouldShowBackButton={false}
+          title="Smile cart"
           actionBlock={
             <Input
               placeholder="Search products"
@@ -61,12 +70,17 @@ const ProductList = () =>{
       ) : (
         <div className="grid grid-cols-2 justify-items-center gap-y-8 p-4 md:grid-cols-3 lg:grid-cols-4">
           {products.map(product => (
-            <ProductListItem key={product.slug} {...product} />
+            <ProductListItem
+              key={product.slug}
+              {...product}
+              isInCart={cartItems.includes(product.slug)}
+              toggleIsInCart={() => toggleIsInCart(product.slug)}
+            />
           ))}
         </div>
       )}
     </div>
   );
-}
+};
 
 export default ProductList;

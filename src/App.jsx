@@ -1,13 +1,20 @@
-import Product from "components/Product/index";
-import "./App.css";
-import { Route, Switch, NavLink, Redirect } from "react-router-dom";
-import ProductList from "./components/ProductList";
-import { PageNotFound } from "components/commons";
 import routes from "apis/routes";
+import { PageNotFound } from "components/commons";
+import Product from "components/Product/index";
+import { Route, Switch, NavLink, Redirect } from "react-router-dom";
+
+import "./App.css";
+import ProductList from "./components/ProductList";
+
 const App = () => (
   <>
     <div className="mx-4 flex space-x-2">
-      <NavLink exact activeClassName="underline font-bold" className="text-2xl" to="/">
+      <NavLink
+        exact
+        activeClassName="underline font-bold"
+        className="text-2xl"
+        to="/"
+      >
         Home
       </NavLink>
       {/* <NavLink exact activeClassName="underline font-bold" to="/product">
