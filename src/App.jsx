@@ -1,4 +1,5 @@
 import routes from "apis/routes";
+import Cart from "components/Cart";
 import { PageNotFound } from "components/commons";
 import Product from "components/Product/index";
 import { Route, Switch, NavLink, Redirect } from "react-router-dom";
@@ -21,6 +22,7 @@ const App = () => (
     <Switch>
       <Route exact component={Product} path={routes.products.show} />
       <Route exact component={ProductList} path={routes.products.index} />
+      <Route exact component={Cart} path={routes.cart} />
       <Redirect exact from={routes.root} to={routes.products.index} />
       <Route component={PageNotFound} path="*" />
     </Switch>
