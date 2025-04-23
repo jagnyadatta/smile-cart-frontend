@@ -8,6 +8,7 @@ import { cartTotalOf } from "components/utils";
 import { NoData, Toastr } from "neetoui";
 import { isEmpty, keys } from "ramda";
 import useCartItemsStore from "stores/useCartItemsStore";
+import { shallow } from "zustand/shallow";
 
 import PriceCard from "./PriceCard";
 import ProductCard from "./ProductCard";
@@ -15,7 +16,13 @@ import ProductCard from "./ProductCard";
 const Cart = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { cartItems, setSelectedQuantity } = useCartItemsStore();
+  const { cartItems, setSelectedQuantity } = useCartItemsStore(
+    store => ({
+      cartItems: store.cartItems,
+      setSelectedQuantity: store.setSelectedQuantity,
+    }),
+    shallow
+  );
   const slugs = keys(cartItems);
   const totalMrp = cartTotalOf(products, MRP);
   const totalOfferPrice = cartTotalOf(products, OFFER_PRICE);
