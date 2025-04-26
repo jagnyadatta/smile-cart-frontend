@@ -21,8 +21,8 @@ const ProductList = () => {
   // const { page, pageSize } = queryParams;
   const [searchKey, setSearchKey] = useState("");
   const [cartItems, setCartItems] = useState([]);
-  const { page, pageSize, searchTerm = "" } = queryParams;
   const queryParams = useQueryParams();
+  const { page, pageSize, searchTerm = "" } = queryParams;
 
   const productsParams = {
     searchTerm,
