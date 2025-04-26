@@ -1,14 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 
 import classNames from "classnames";
+import { useShowProduct } from "hooks/reactQuery/useProductsApi";
 import { Left, Right } from "neetoicons";
 import { Button } from "neetoui";
+import { append } from "ramda";
+import { useParams } from "react-router-dom";
 
-import { IMAGE_URLS } from "../constants";
-
-const Carousel = ({ imageUrls, title }) => {
+const Carousel = () => {
+  const { slug } = useParams();
   const [currentIndex, setCurrentIndex] = useState(0);
   const timerRef = useRef(null);
+  const { data: { imageUrl, imageUrls: partialImageUrls, title } = {} } =
+    useShowProduct(slug);
+  const imageUrls = append(imageUrl, partialImageUrls);
 
   const handleNext = () => {
     const nextIndex = (currentIndex + 1) % imageUrls.length;
@@ -60,7 +65,7 @@ const Carousel = ({ imageUrls, title }) => {
         />
       </div>
       <div className="mt-2 flex space-x-1">
-        {IMAGE_URLS.map((_, index) => (
+        {imageUrls.map((_, index) => (
           <span
             key={index}
             className={classNames(
