@@ -1,7 +1,7 @@
 import { QUERY_KEYS } from "constants/query";
 
 import productsApi from "apis/products";
-import { useQuery } from "react-query";
+import { useQueries, useQuery } from "react-query";
 
 export const useShowProduct = slug =>
   useQuery({
@@ -16,3 +16,12 @@ export const useFetchProducts = params =>
     enabled: true,
     keepPreviousData: true,
   });
+
+export const useFetchCartProducts = slugs => {
+  const queries = (slugs || []).map(slug => ({
+    queryKey: [QUERY_KEYS.PRODUCTS, slug],
+    queryFn: () => productsApi.show(slug),
+  }));
+
+  return useQueries(queries); // Always call useQueries even if empty
+};
