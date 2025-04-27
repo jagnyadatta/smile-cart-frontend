@@ -12,8 +12,16 @@
   },
   "checkout": "Checkout",
   "contact": "Contact",
+  "confirmOrder": "Confirm order",
   "email": "Email",
   "enterYourEmail": "Enter your email",
+  "error": {
+    "noInternetConnection": "No Internet Connection",
+    "networkError": "Network Error"
+  },
+  "order": {
+    "successfullyPlaced": "Order has been successfully placed"
+  },
   "shippingAddress": "Shipping address",
   "country": "Country",
   "selectCountry": "Select the country",
